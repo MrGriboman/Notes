@@ -2,6 +2,8 @@ package com.example.notes
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.example.notes.Models.MockDatabase
+import com.example.notes.Models.Task
 
 class TasksViewModel(application: Application) : AndroidViewModel(application) {
 

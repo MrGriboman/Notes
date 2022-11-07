@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.notes.Models.Task
 import com.example.notes.databinding.TaskItemBinding
 
 class TasksListAdapter(var tasks: List<Task>, val viewModel: TasksViewModel)
