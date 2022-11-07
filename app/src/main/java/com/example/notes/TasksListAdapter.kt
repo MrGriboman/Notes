@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.databinding.TaskItemBinding
 
-class TasksListAdapter(var tasks: List<Task>)
+class TasksListAdapter(var tasks: List<Task>, val viewModel: TasksViewModel)
     : RecyclerView.Adapter<TasksListAdapter.TasksListViewHolder>() {
 
     inner class TasksListViewHolder(val binding: TaskItemBinding)

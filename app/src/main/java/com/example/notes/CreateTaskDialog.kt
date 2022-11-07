@@ -3,14 +3,15 @@ package com.example.notes
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.notes.databinding.CreateTaskDialogBinding
 
 class CreateTaskDialog : AppCompatDialogFragment() {
-    lateinit var dialogInterface: createTaskDialogInterface
+    private lateinit var dialogInterface: CreateTaskDialogInterface
     private var _binding: CreateTaskDialogBinding? = null
     private val binding get() = _binding!!
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -18,18 +19,36 @@ class CreateTaskDialog : AppCompatDialogFragment() {
         val builder = AlertDialog.Builder(requireActivity())
 
         builder.setView(binding.root)
-            .setTitle("Add a new task")
-            .setNegativeButton("Cancel") {dialog, _ ->
+            .setTitle(R.string.add_a_new_task)
+            .setNegativeButton(R.string.cancel) {dialog, _ ->
                 dialog.dismiss()
             }
-            .setPositiveButton("Add") {dialog, _ ->
+            .setPositiveButton(R.string.add) {dialog, _ ->
                 val title = binding.etTitle.text.toString()
                 val task = binding.etTask.text.toString()
-                dialogInterface.sendData(title, task)
+                dialogInterface.updateTasks(title, task)
                 dialog.dismiss()
             }
 
-        return builder.create()
+        val dialog = builder.create()
+
+        binding.etTitle.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = !s.isNullOrEmpty()
+            }
+        })
+
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
+        }
+
+        return dialog
     }
 
     override fun onDestroy() {
@@ -39,10 +58,11 @@ class CreateTaskDialog : AppCompatDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        dialogInterface = context as createTaskDialogInterface
+        dialogInterface = context as CreateTaskDialogInterface
     }
 
-    public interface createTaskDialogInterface {
-        fun sendData(title: String, task: String)
+    interface CreateTaskDialogInterface {
+        fun updateTasks(title: String, task: String)
     }
+
 }

@@ -2,16 +2,14 @@ package com.example.notes
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.notes.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), CreateTaskDialog.createTaskDialogInterface {
+class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInterface {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var tasksList: MutableList<Task>
     private lateinit var adapter: TasksListAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var viewModel: TasksViewModel
@@ -20,26 +18,16 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.createTaskDialogInter
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[TasksViewModel::class.java]
+        val tasksList = viewModel.getAllTasks().value ?: listOf()
+        adapter = TasksListAdapter(tasksList, viewModel)
+        layoutManager = LinearLayoutManager(this)
+        val tasksObserver = Observer<List<Task>> {
+            adapter.tasks = it
+            adapter.notifyItemChanged(0)
+        }
+        viewModel.getAllTasks().observe(this, tasksObserver)
         setContentView(binding.root)
 
-        tasksList = mutableListOf(
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-            Task("Вася епт", "Помой посуду, джва дня уже стоит", false),
-        )
-        adapter = TasksListAdapter(tasksList)
-        layoutManager = LinearLayoutManager(this)
         binding.apply {
             rvTasks.adapter = adapter
             rvTasks.layoutManager = layoutManager
@@ -52,13 +40,10 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.createTaskDialogInter
     }
 
     private fun addNewTask() {
-        val dialog = CreateTaskDialog()
-        dialog.show(supportFragmentManager, "Add task")
+        CreateTaskDialog().show(supportFragmentManager, "Add task")
     }
 
-    override fun sendData(title: String, task: String) {
-        val newTask = Task(title, task, false)
-        tasksList.add(newTask)
-        adapter.notifyItemInserted(tasksList.indices.last)
+    override fun updateTasks(title: String, task: String) {
+        viewModel.addTask(Task(title, task, false))
     }
 }
