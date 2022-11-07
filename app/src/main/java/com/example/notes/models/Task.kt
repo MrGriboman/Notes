@@ -1,4 +1,4 @@
-package com.example.notes
+package com.example.notes.models
 
 data class Task(
     val title: String,

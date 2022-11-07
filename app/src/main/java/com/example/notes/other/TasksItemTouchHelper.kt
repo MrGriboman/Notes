@@ -1,12 +1,9 @@
-package com.example.notes
+package com.example.notes.other
 
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.example.notes.viewModels.TasksViewModel
 
 class TasksItemTouchHelper(
-    private val viewModel: TasksViewModel,
-    private val adapter: TasksListAdapter
-    )
-    : ItemTouchHelper(TasksItemTouchHelperCallback(viewModel, adapter))
-{
-
-}
+    viewModel: TasksViewModel,
+    adapter: TasksListAdapter
+) : ItemTouchHelper(TasksItemTouchHelperCallback(viewModel, adapter))

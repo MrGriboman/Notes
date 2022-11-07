@@ -1,4 +1,4 @@
-package com.example.notes
+package com.example.notes.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.notes.other.CreateTaskDialog
+import com.example.notes.models.Task
+import com.example.notes.other.TasksItemTouchHelper
+import com.example.notes.other.TasksListAdapter
+import com.example.notes.viewModels.TasksViewModel
 import com.example.notes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInterface {
@@ -19,7 +24,7 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
         binding = ActivityMainBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[TasksViewModel::class.java]
         val tasksList = viewModel.getAllTasks().value ?: listOf()
-        adapter = TasksListAdapter(tasksList, viewModel)
+        adapter = TasksListAdapter(tasksList)
         layoutManager = LinearLayoutManager(this)
         val tasksObserver = Observer<List<Task>> {
             adapter.tasks = it
@@ -33,9 +38,14 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
         binding.apply {
             rvTasks.adapter = adapter
             rvTasks.layoutManager = layoutManager
-            rvTasks.addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
+            rvTasks.addItemDecoration(
+                DividerItemDecoration(
+                    this@MainActivity,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
 
-            fbtnAdd.setOnClickListener{
+            fbtnAdd.setOnClickListener {
                 addNewTask()
             }
         }

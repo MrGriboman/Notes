@@ -1,4 +1,4 @@
-package com.example.notes
+package com.example.notes.other
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialogFragment
+import com.example.notes.R
 import com.example.notes.databinding.CreateTaskDialogBinding
 
 class CreateTaskDialog : AppCompatDialogFragment() {
@@ -20,10 +21,10 @@ class CreateTaskDialog : AppCompatDialogFragment() {
 
         builder.setView(binding.root)
             .setTitle(R.string.add_a_new_task)
-            .setNegativeButton(R.string.cancel) {dialog, _ ->
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
             }
-            .setPositiveButton(R.string.add) {dialog, _ ->
+            .setPositiveButton(R.string.add) { dialog, _ ->
                 val title = binding.etTitle.text.toString()
                 val task = binding.etTask.text.toString()
                 dialogInterface.updateTasks(title, task)
