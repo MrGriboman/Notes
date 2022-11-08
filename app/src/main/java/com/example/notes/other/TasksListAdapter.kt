@@ -22,7 +22,7 @@ class TasksListAdapter(var tasks: List<Task>) :
         holder.binding.apply {
             tvTaskTitle.text = tasks[position].title
             tvTaskDescription.text = tasks[position].task
-            cbCompleted.isChecked = tasks[position].competed
+            cbCompleted.isChecked = tasks[position].isCompleted
         }
     }
 

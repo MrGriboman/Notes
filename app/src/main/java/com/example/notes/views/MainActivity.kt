@@ -12,6 +12,9 @@ import com.example.notes.other.TasksItemTouchHelper
 import com.example.notes.other.TasksListAdapter
 import com.example.notes.viewModels.TasksViewModel
 import com.example.notes.databinding.ActivityMainBinding
+import com.example.notes.models.TasksDatabase
+import com.example.notes.models.TasksRepository
+import com.example.notes.viewModels.TasksViewModelFactory
 
 class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInterface {
     private lateinit var binding: ActivityMainBinding
@@ -22,17 +25,22 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[TasksViewModel::class.java]
-        val tasksList = viewModel.getAllTasks().value ?: listOf()
-        adapter = TasksListAdapter(tasksList)
+
+        val database = TasksDatabase(this)
+        val repository = TasksRepository(database)
+        val viewModelFactory = TasksViewModelFactory(application, repository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[TasksViewModel::class.java]
+
+        adapter = TasksListAdapter(viewModel.getAllTasks().value?.reversed() ?: listOf())
         layoutManager = LinearLayoutManager(this)
         val tasksObserver = Observer<List<Task>> {
-            adapter.tasks = it
-            adapter.notifyItemChanged(0)
+            adapter.tasks = it.reversed()
+            adapter.notifyDataSetChanged()
         }
+        viewModel.getAllTasks().observe(this, tasksObserver)
+
         val itemTouchHelper = TasksItemTouchHelper(viewModel, adapter)
         itemTouchHelper.attachToRecyclerView(binding.rvTasks)
-        viewModel.getAllTasks().observe(this, tasksObserver)
         setContentView(binding.root)
 
         binding.apply {
@@ -46,16 +54,18 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
             )
 
             fbtnAdd.setOnClickListener {
-                addNewTask()
+                showCreateTaskDialog()
             }
         }
     }
 
-    private fun addNewTask() {
+    private fun showCreateTaskDialog() {
         CreateTaskDialog().show(supportFragmentManager, "Add task")
     }
 
     override fun updateTasks(title: String, task: String) {
-        viewModel.addTask(Task(title, task, false))
+        val newTask = Task(title, task, false)
+        viewModel.addTask(newTask)
+
     }
 }
