@@ -1,7 +1,9 @@
 package com.example.notes.views
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -31,7 +33,11 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
         val viewModelFactory = TasksViewModelFactory(application, repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[TasksViewModel::class.java]
 
-        adapter = TasksListAdapter(viewModel.getAllTasks().value?.reversed() ?: listOf())
+        adapter = TasksListAdapter(viewModel.getAllTasks().value?.reversed() ?: listOf()) {
+            Intent(this, EditTaskActivity::class.java).also {
+                startActivity(it)
+            }
+        }
         layoutManager = LinearLayoutManager(this)
         val tasksObserver = Observer<List<Task>> {
             adapter.tasks = it.reversed()
@@ -66,6 +72,5 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
     override fun updateTasks(title: String, task: String) {
         val newTask = Task(title, task, false)
         viewModel.addTask(newTask)
-
     }
 }

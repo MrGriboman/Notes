@@ -26,7 +26,7 @@ class CreateTaskDialog : AppCompatDialogFragment() {
             }
             .setPositiveButton(R.string.add) { dialog, _ ->
                 val title = binding.etTitle.text.toString()
-                val task = binding.etTask.text.toString()
+                val task = binding.etDescription.text.toString()
                 dialogInterface.updateTasks(title, task)
                 dialog.dismiss()
             }

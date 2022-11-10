@@ -6,16 +6,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.models.Task
 import com.example.notes.databinding.TaskItemBinding
 
-class TasksListAdapter(var tasks: List<Task>) :
+class TasksListAdapter(var tasks: List<Task>, val clickListener: (Task) -> Unit) :
     RecyclerView.Adapter<TasksListAdapter.TasksListViewHolder>() {
 
-    inner class TasksListViewHolder(val binding: TaskItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    class TasksListViewHolder(
+        val binding: TaskItemBinding,
+        val clickAtPosition: (Int) -> Unit
+    ) :
+        RecyclerView.ViewHolder(binding.root) {
+            init {
+                binding.recyclerItem.setOnClickListener { clickAtPosition(adapterPosition) }
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = TaskItemBinding.inflate(layoutInflater, parent, false)
-        return TasksListViewHolder(binding)
+        return TasksListViewHolder(binding) {clickListener(tasks[it])}
     }
 
     override fun onBindViewHolder(holder: TasksListViewHolder, position: Int) {
