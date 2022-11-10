@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        val database = TasksDatabase(this)
+        val database = TasksDatabase.getInstance(this)
         val repository = TasksRepository(database)
         val viewModelFactory = TasksViewModelFactory(application, repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[TasksViewModel::class.java]
