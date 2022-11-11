@@ -3,7 +3,6 @@ package com.example.notes.views
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,6 +13,7 @@ import com.example.notes.other.TasksItemTouchHelper
 import com.example.notes.other.TasksListAdapter
 import com.example.notes.viewModels.TasksViewModel
 import com.example.notes.databinding.ActivityMainBinding
+import com.example.notes.models.TaskSerializable
 import com.example.notes.models.TasksDatabase
 import com.example.notes.models.TasksRepository
 import com.example.notes.viewModels.TasksViewModelFactory
@@ -34,8 +34,9 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
         viewModel = ViewModelProvider(this, viewModelFactory)[TasksViewModel::class.java]
 
         adapter = TasksListAdapter(viewModel.getAllTasks().value?.reversed() ?: listOf()) {
-            Intent(this, EditTaskActivity::class.java).also {
-                startActivity(it)
+            Intent(this, EditTaskActivity::class.java).also { intent ->
+                intent.putExtra("Task", TaskSerializable.fromTask(it))
+                startActivity(intent)
             }
         }
         layoutManager = LinearLayoutManager(this)
