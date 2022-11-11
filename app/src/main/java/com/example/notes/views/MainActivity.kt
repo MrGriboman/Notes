@@ -54,21 +54,11 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
         binding.apply {
             rvTasks.adapter = adapter
             rvTasks.layoutManager = layoutManager
-            rvTasks.addItemDecoration(
-                DividerItemDecoration(
-                    this@MainActivity,
-                    LinearLayoutManager.VERTICAL
-                )
-            )
 
             fbtnAdd.setOnClickListener {
-                showCreateTaskDialog()
+                CreateTaskDialog().show(supportFragmentManager, "Add task")
             }
         }
-    }
-
-    private fun showCreateTaskDialog() {
-        CreateTaskDialog().show(supportFragmentManager, "Add task")
     }
 
     override fun addTask(title: String, task: String) {
