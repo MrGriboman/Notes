@@ -13,7 +13,7 @@ import com.example.notes.other.TasksItemTouchHelper
 import com.example.notes.other.TasksListAdapter
 import com.example.notes.viewModels.TasksViewModel
 import com.example.notes.databinding.ActivityMainBinding
-import com.example.notes.models.TaskSerializable
+import com.example.notes.models.TaskSerializer
 import com.example.notes.models.TasksDatabase
 import com.example.notes.models.TasksRepository
 import com.example.notes.viewModels.TasksViewModelFactory
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
         adapter =
             TasksListAdapter(viewModel.getAllTasks().value?.reversed() ?: listOf(), viewModel) {
                 Intent(this, EditTaskActivity::class.java).also { intent ->
-                    intent.putExtra("Task", TaskSerializable.fromTask(it))
+                    intent.putExtra("Task", TaskSerializer.fromTask(it))
                     startActivity(intent)
                 }
             }

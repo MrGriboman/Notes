@@ -2,10 +2,10 @@ package com.example.notes.other
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.models.Task
 import com.example.notes.databinding.TaskItemBinding
+import com.example.notes.models.TaskSerializer
 import com.example.notes.viewModels.TasksViewModel
 
 class TasksListAdapter(
@@ -22,14 +22,9 @@ class TasksListAdapter(
         init {
             binding.recyclerItem.setOnClickListener { clickListener(tasks[adapterPosition]) }
             binding.cbCompleted.setOnCheckedChangeListener { _, isChecked ->
-                val task = tasks[adapterPosition]
-                val editedTask = Task(
-                    task.title,
-                    task.task,
-                    isChecked,
-                    task.ID
-                )
-                viewModel.update(editedTask)
+                val taskSerializable = TaskSerializer.fromTask(tasks[adapterPosition])
+                taskSerializable.isCompleted = isChecked
+                viewModel.update(TaskSerializer.toTask(taskSerializable))
             }
         }
     }

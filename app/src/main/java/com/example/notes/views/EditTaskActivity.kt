@@ -4,8 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.example.notes.databinding.ActivityEditTaskBinding
-import com.example.notes.models.Task
-import com.example.notes.models.TaskSerializable
+import com.example.notes.models.TaskSerializer
 import com.example.notes.models.TasksDatabase
 import com.example.notes.models.TasksRepository
 import com.example.notes.viewModels.TasksViewModel
@@ -23,17 +22,14 @@ class EditTaskActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            val taskSerializable = intent.getSerializableExtra("Task") as TaskSerializable
+            val taskSerializable = intent.getSerializableExtra("Task") as TaskSerializer
             etTitleEdit.setText(taskSerializable.title)
             etDescriptionEdit.setText(taskSerializable.task)
+
             btnBack.setOnClickListener {
-                val editedTask = Task(
-                    etTitleEdit.text.toString(),
-                    etDescriptionEdit.text.toString(),
-                    taskSerializable.isCompleted,
-                    taskSerializable.ID
-                )
-                viewModel.update(editedTask)
+                taskSerializable.title = etTitleEdit.text.toString()
+                taskSerializable.task = etDescriptionEdit.text.toString()
+                viewModel.update(TaskSerializer.toTask(taskSerializable))
                 finish()
             }
         }
