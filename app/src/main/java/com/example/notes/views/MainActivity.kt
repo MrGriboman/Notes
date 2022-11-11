@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), CreateTaskDialog.CreateTaskDialogInter
         }
         viewModel.getAllTasks().observe(this, tasksObserver)
 
-        val itemTouchHelper = TasksItemTouchHelper(viewModel, adapter)
+        val itemTouchHelper = TasksItemTouchHelper(viewModel, adapter, binding.root)
         itemTouchHelper.attachToRecyclerView(binding.rvTasks)
         setContentView(binding.root)
 
