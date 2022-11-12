@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:padding="8dp"
+    android:padding="8dp"
     tools:context=".views.EditTaskActivity">
 
     <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@string/go_back"
         android:minWidth="48dp"
         android:minHeight="48dp"
@@ -23,7 +23,7 @@
         android:id="@+id/btnDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@string/delete"
         android:minWidth="48dp"
         android:minHeight="48dp"
@@ -39,7 +39,7 @@
         android:contentDescription="@string/move_to_important"
         android:minWidth="48dp"
         android:minHeight="48dp"
-        android:src="@drawable/ic_baseline_star_24"
+        android:src="@drawable/ic_baseline_star_outline_24"
         app:layout_constraintEnd_toStartOf="@+id/btnDelete"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,7 +81,7 @@
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/button"
         android:text="@string/task_is_completed"
-        android:textColor="@color/onButton"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

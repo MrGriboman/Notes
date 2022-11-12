@@ -82,7 +82,7 @@
             android:src="@drawable/ic_baseline_add_24"
             app:backgroundTint="@color/button"
             app:layout_anchor="@id/bottomAppBar"
-            app:tint="@color/onButton" />
+            app:tint="@color/black" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <androidx.constraintlayout.widget.Guideline
