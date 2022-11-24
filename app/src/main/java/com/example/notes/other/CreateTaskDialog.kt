@@ -32,7 +32,8 @@ class CreateTaskDialog : AppCompatDialogFragment() {
             .setPositiveButton(R.string.add) { dialog, _ ->
                 val title = binding.etTitle.text.toString()
                 val task = binding.etDescription.text.toString()
-                dialogInterface.addTask(title, task)
+                val date = binding.tvDate.text.toString()
+                dialogInterface.addTask(title, task, date)
                 dialog.dismiss()
             }
 
@@ -92,7 +93,7 @@ class CreateTaskDialog : AppCompatDialogFragment() {
     }
 
     interface CreateTaskDialogInterface {
-        fun addTask(title: String, task: String)
+        fun addTask(title: String, task: String, date: String)
     }
 
 }

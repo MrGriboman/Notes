@@ -31,10 +31,12 @@ class EditTaskActivity : AppCompatActivity() {
             val taskSerializable = intent.getSerializableExtra("Task") as TaskSerializer
             etTitleEdit.setText(taskSerializable.title)
             etDescriptionEdit.setText(taskSerializable.task)
+            tvDate.text = taskSerializable.date
 
             btnBack.setOnClickListener {
                 taskSerializable.title = etTitleEdit.text.toString()
                 taskSerializable.task = etDescriptionEdit.text.toString()
+                taskSerializable.date = tvDate.text.toString()
                 viewModel.update(TaskSerializer.toTask(taskSerializable))
                 finish()
             }
