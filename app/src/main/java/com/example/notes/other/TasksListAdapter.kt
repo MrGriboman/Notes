@@ -1,14 +1,11 @@
 package com.example.notes.other
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.models.Task
 import com.example.notes.databinding.TaskItemBinding
-import com.example.notes.models.TaskSerializer
 import com.example.notes.viewModels.TasksViewModel
-import kotlinx.coroutines.coroutineScope
 
 class TasksListAdapter(
     var tasks: List<Task>,

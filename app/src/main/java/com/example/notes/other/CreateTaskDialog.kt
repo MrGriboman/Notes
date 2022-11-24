@@ -12,9 +12,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.notes.R
 import com.example.notes.databinding.CreateTaskDialogBinding
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
-import javax.xml.datatype.DatatypeConstants.MONTHS
 
 class CreateTaskDialog : AppCompatDialogFragment() {
     private lateinit var dialogInterface: CreateTaskDialogInterface
@@ -60,7 +58,7 @@ class CreateTaskDialog : AppCompatDialogFragment() {
 
             val dpd = DatePickerDialog(
                 requireContext(),
-                DatePickerDialog.OnDateSetListener { _, yearPicked, monthOfYear, dayOfMonth ->
+                { _, yearPicked, monthOfYear, dayOfMonth ->
                     calendar.set(Calendar.YEAR, yearPicked)
                     calendar.set(Calendar.MONTH, monthOfYear)
                     calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
