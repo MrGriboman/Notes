@@ -12,6 +12,7 @@ import com.example.notes.databinding.ActivityEditTaskBinding
 import com.example.notes.models.TaskSerializer
 import com.example.notes.models.TasksDatabase
 import com.example.notes.models.TasksRepository
+import com.example.notes.other.DrawablesGetter
 import com.example.notes.viewModels.TasksViewModel
 import com.example.notes.viewModels.TasksViewModelFactory
 import com.google.android.material.snackbar.Snackbar
@@ -44,7 +45,11 @@ class EditTaskActivity : AppCompatActivity() {
             btnTaskCompleted.text = text
             btnTaskCompleted.setBackgroundColor(color)
 
-            btnBack.setOnClickListener {onBackPressed()}
+            btnImportant.setImageResource(
+                DrawablesGetter.getStarDrawable(taskSerializable.isImportant)
+            )
+
+            btnBack.setOnClickListener { onBackPressed() }
 
             btnTaskCompleted.setOnClickListener {
                 taskSerializable.isCompleted = !taskSerializable.isCompleted
@@ -96,6 +101,15 @@ class EditTaskActivity : AppCompatActivity() {
 
                 dpd.show()
             }
+
+            btnImportant.setOnClickListener {
+                taskSerializable.isImportant = !taskSerializable.isImportant
+                btnImportant.setImageResource(
+                    DrawablesGetter.getStarDrawable(taskSerializable.isImportant)
+                )
+                val task = TaskSerializer.toTask(taskSerializable)
+                viewModel.update(task)
+            }
         }
     }
 
@@ -111,11 +125,11 @@ class EditTaskActivity : AppCompatActivity() {
 
     private fun getCompletedButtonText(isCompleted: Boolean): String {
         return if (isCompleted) resources.getString(R.string.task_is_completed)
-                else resources.getString(R.string.task_is_not_completed)
+        else resources.getString(R.string.task_is_not_completed)
     }
 
     private fun getCompletedButtonColor(isCompleted: Boolean): Int {
         return if (isCompleted) ContextCompat.getColor(applicationContext, R.color.button)
-                else ContextCompat.getColor(applicationContext, R.color.button_red)
+        else ContextCompat.getColor(applicationContext, R.color.button_red)
     }
 }

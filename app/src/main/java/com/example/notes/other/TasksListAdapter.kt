@@ -48,8 +48,19 @@ class TasksListAdapter(
                 viewModel.update(editedTask)
             }
             btnAddToFavourite.setOnClickListener(null)
+            val isImportant = tasks[position].isImportant
+            btnAddToFavourite.setImageResource(DrawablesGetter.getStarDrawable(isImportant))
             btnAddToFavourite.setOnClickListener {
-                btnAddToFavourite.setImageResource(R.drawable.ic_baseline_star_24)
+                val task = tasks[position]
+                val editedTask = Task(
+                    task.title,
+                    task.task,
+                    task.isCompleted,
+                    !task.isImportant,
+                    task.date,
+                    task.ID
+                )
+                viewModel.update(editedTask)
             }
         }
     }
