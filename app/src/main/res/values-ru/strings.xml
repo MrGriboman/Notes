@@ -11,6 +11,7 @@
     <string name="the_task">Подробности</string>
     <string name="go_back">Назад</string>
     <string name="task_is_completed">Задача выполнена</string>
+    <string name="task_is_not_completed">Задача не выполнена</string>
     <string name="delete">Удалить</string>
     <string name="move_to_important">Перемеместить в важное</string>
     <string name="task_deleted">Задача удалена</string>

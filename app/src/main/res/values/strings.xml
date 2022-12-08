@@ -9,6 +9,7 @@
     <string name="task_title">Task title</string>
     <string name="the_task">The task</string>
     <string name="task_is_completed">Task is completed</string>
+    <string name="task_is_not_completed">Task is not completed</string>
     <string name="go_back">go back</string>
     <string name="delete">delete</string>
     <string name="move_to_important">move to important</string>

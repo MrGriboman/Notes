@@ -1,8 +1,11 @@
 package com.example.notes.views
 
 import android.app.DatePickerDialog
+import android.graphics.Color.red
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.notes.R
 import com.example.notes.databinding.ActivityEditTaskBinding
@@ -36,7 +39,23 @@ class EditTaskActivity : AppCompatActivity() {
             etDescriptionEdit.setText(taskSerializable.task)
             tvDate.text = taskSerializable.date
 
+            val color = getCompletedButtonColor(taskSerializable.isCompleted)
+            val text = getCompletedButtonText(taskSerializable.isCompleted)
+            btnTaskCompleted.text = text
+            btnTaskCompleted.setBackgroundColor(color)
+
             btnBack.setOnClickListener {onBackPressed()}
+
+            btnTaskCompleted.setOnClickListener {
+                taskSerializable.isCompleted = !taskSerializable.isCompleted
+                val btnColor = getCompletedButtonColor(taskSerializable.isCompleted)
+                val btnText = getCompletedButtonText(taskSerializable.isCompleted)
+                val btnCompleted = it as Button
+                btnCompleted.text = btnText
+                btnCompleted.setBackgroundColor(btnColor)
+                val task = TaskSerializer.toTask(taskSerializable)
+                viewModel.update(task)
+            }
 
             btnDelete.setOnClickListener {
                 val task = TaskSerializer.toTask(taskSerializable)
@@ -88,5 +107,15 @@ class EditTaskActivity : AppCompatActivity() {
         }
         viewModel.update(TaskSerializer.toTask(taskSerializable))
         super.onBackPressed()
+    }
+
+    private fun getCompletedButtonText(isCompleted: Boolean): String {
+        return if (isCompleted) resources.getString(R.string.task_is_completed)
+                else resources.getString(R.string.task_is_not_completed)
+    }
+
+    private fun getCompletedButtonColor(isCompleted: Boolean): Int {
+        return if (isCompleted) ContextCompat.getColor(applicationContext, R.color.button)
+                else ContextCompat.getColor(applicationContext, R.color.button_red)
     }
 }
