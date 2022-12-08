@@ -25,7 +25,10 @@ class TasksListAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksListAdapter.TasksListViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): TasksListAdapter.TasksListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = TaskItemBinding.inflate(layoutInflater, parent, false)
         return TasksListViewHolder(binding)
@@ -40,7 +43,8 @@ class TasksListAdapter(
             cbCompleted.isChecked = tasks[position].isCompleted
             cbCompleted.setOnCheckedChangeListener { _, isChecked ->
                 val task = tasks[position]
-                val editedTask = Task(task.title, task.task, isChecked, task.date, task.ID)
+                val editedTask =
+                    Task(task.title, task.task, isChecked, task.isImportant, task.date, task.ID)
                 viewModel.update(editedTask)
             }
             btnAddToFavourite.setOnClickListener(null)
