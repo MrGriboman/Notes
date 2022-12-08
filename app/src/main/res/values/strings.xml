@@ -16,4 +16,5 @@
     <string name="task_deleted">Task\'s deleted</string>
     <string name="undo">Undo</string>
     <string name="set_date">Set date</string>
+    <string name="add_to_important">Add to important</string>
 </resources>

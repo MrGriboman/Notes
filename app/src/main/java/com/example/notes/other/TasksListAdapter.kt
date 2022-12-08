@@ -1,8 +1,10 @@
 package com.example.notes.other
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.notes.R
 import com.example.notes.models.Task
 import com.example.notes.databinding.TaskItemBinding
 import com.example.notes.viewModels.TasksViewModel
@@ -40,6 +42,10 @@ class TasksListAdapter(
                 val task = tasks[position]
                 val editedTask = Task(task.title, task.task, isChecked, task.date, task.ID)
                 viewModel.update(editedTask)
+            }
+            btnAddToFavourite.setOnClickListener(null)
+            btnAddToFavourite.setOnClickListener {
+                btnAddToFavourite.setImageResource(R.drawable.ic_baseline_star_24)
             }
         }
     }
