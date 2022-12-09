@@ -1,5 +1,6 @@
 package com.example.notes.other
 
+import android.graphics.Paint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -38,6 +39,17 @@ class TasksListAdapter(
         holder.binding.apply {
             tvTaskTitle.text = tasks[position].title
             tvTaskDescription.text = tasks[position].task
+
+            tvTaskTitle.apply {
+                paintFlags =
+                    if (tasks[position].isCompleted) paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    else paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            }
+            tvTaskDescription.apply {
+                paintFlags =
+                    if (tasks[position].isCompleted) paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    else paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            }
 
             cbCompleted.setOnCheckedChangeListener(null)
             cbCompleted.isChecked = tasks[position].isCompleted
