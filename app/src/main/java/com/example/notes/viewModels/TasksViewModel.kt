@@ -29,4 +29,8 @@ class TasksViewModel(application: Application, private val repository: TasksRepo
     }
 
     fun getAllTasks() = repository.getAllTasks()
+
+    fun getImportantTasks() = repository.getImportantTasks()
+
+    fun getCompletedTasks() = repository.getCompletedTasks()
 }
